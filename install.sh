@@ -19,8 +19,8 @@ case "${1:-}" in
 esac
 
 # CDPATH must be empty, otherwise `cd` may print and jump somewhere else.
-# Assigned on its own line rather than as a `CDPATH= cd ...` prefix, which
-# shellcheck flags as SC1007.
+# Assigned on its own line rather than as a `CDPATH= cd ...` prefix, because
+# SC1007 flags that prefix form as a likely typo.
 CDPATH=''
 src_dir=$(cd -- "$(dirname -- "$0")" && pwd)
 dest_dir=${CLAUDE_CONFIG_DIR:-$HOME/.claude}
