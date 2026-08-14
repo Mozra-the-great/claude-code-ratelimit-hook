@@ -36,8 +36,10 @@ for name in statusline-command.sh rate-limit-guard.sh rate-limit-waiter.sh; do
   src=$src_dir/hooks/$name
   dest=$dest_dir/$name
 
-  # Never silently clobber a real file the user already had there.
-  if [ -e "$dest" ] && [ ! -L "$dest" ]; then
+  # Never silently clobber a real file the user already had there. A file we
+  # installed ourselves on an earlier --copy run is identical to the source, so
+  # backing it up would just pile up .bak copies on every re-run.
+  if [ -e "$dest" ] && [ ! -L "$dest" ] && ! cmp -s "$src" "$dest"; then
     backup=$dest.bak-$(date +%Y%m%d-%H%M%S)
     mv "$dest" "$backup"
     echo "install.sh: backed up existing $name to $(basename "$backup")"
