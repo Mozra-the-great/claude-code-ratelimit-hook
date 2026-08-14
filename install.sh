@@ -46,10 +46,14 @@ for name in statusline-command.sh rate-limit-guard.sh rate-limit-waiter.sh; do
   rm -f "$dest"
   if [ "$MODE" = copy ]; then
     cp "$src" "$dest"
+    # Only ever chmod the copy we just made. Touching the source would fail
+    # whenever this checkout is not owned by the installing user - e.g. a
+    # root-owned clone under /opt installed on behalf of a service account.
+    chmod +x "$dest"
   else
+    # Symlink mode needs no chmod: the scripts are committed with mode 755.
     ln -s "$src" "$dest"
   fi
-  chmod +x "$src"
 done
 
 echo "install.sh: installed 3 scripts into $dest_dir ($MODE)"
