@@ -18,7 +18,11 @@ case "${1:-}" in
   *) echo "install.sh: unknown argument: $1" >&2; exit 2 ;;
 esac
 
-src_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+# CDPATH must be empty, otherwise `cd` may print and jump somewhere else.
+# Assigned on its own line rather than as a `CDPATH= cd ...` prefix, which
+# shellcheck flags as SC1007.
+CDPATH=''
+src_dir=$(cd -- "$(dirname -- "$0")" && pwd)
 dest_dir=${CLAUDE_CONFIG_DIR:-$HOME/.claude}
 
 command -v jq >/dev/null 2>&1 || { echo "install.sh: jq is required" >&2; exit 1; }
