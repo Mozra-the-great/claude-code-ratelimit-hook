@@ -101,6 +101,17 @@ of one long sleep.
 window whose `resets_at` has already passed as not blocking, so stale state expires on its
 own rather than blocking forever.
 
+## Tests
+
+Behaviour tests for the guard, the waiter, the statusline cache and the installer live in
+`tests/`. They are plain POSIX `sh`, need only `jq`, run in a throw-away `HOME` (your real
+`~/.claude` is never touched) and stub `sleep`, so no test waits for a real reset:
+
+```sh
+sh tests/run-all.sh                # hooks run under sh
+TEST_SH=bash sh tests/run-all.sh   # hooks run under bash, as the settings snippet starts them
+```
+
 ## License
 
 GNU General Public License v3.0 — see [`LICENSE`](LICENSE).
