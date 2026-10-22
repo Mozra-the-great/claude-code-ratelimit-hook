@@ -23,6 +23,7 @@ shellcheck --shell=sh install.sh uninstall.sh hooks/*.sh tests/*.sh
 - `workflow-lint.yml`: actionlint + zizmor. `secret-scan.yml`: gitleaks on PRs.
 - No Claude workflows by design (shell hooks, rare PRs).
 - Actions are pinned by commit SHA with a version comment; Dependabot keeps them fresh.
+- CodeQL runs as GitHub default setup (actions, default suite, not a workflow file); the `CodeQL` status check is required by the ruleset.
 
 ## Conventions
 - Conventional commits in English, feature branches, no direct pushes to `main`.
